@@ -1,11 +1,10 @@
 ﻿using System;
 using Common.SimpleDependencyInjector;
+using MerchantFeeCalculationEngine.Model;
+using MerchantFeeCalculationEngine.Processor;
 
 namespace MerchantFeeCalculator
 {
-    using MerchantFeeCalculationEngine;
-    using MerchantFeeCalculationEngine.Model;
-
     public class Program
     {
         public static void Main(string[] args)

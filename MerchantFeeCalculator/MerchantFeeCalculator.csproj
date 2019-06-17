@@ -6,6 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SampleMerchants.txt" />
+    <None Remove="SampleTestTransactions.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SampleMerchants.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleTestTransactions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Common.SimpleDependencyInjector\Common.SimpleDependencyInjector.csproj" />
     <ProjectReference Include="..\MerchantFeeCalculationEngine\MerchantFeeCalculationEngine.csproj" />
   </ItemGroup>

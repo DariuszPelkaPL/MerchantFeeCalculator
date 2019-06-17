@@ -1,12 +1,11 @@
-using MerchantFeeCalculationEngine;
 using System;
+using System.Globalization;
+using MerchantFeeCalculationEngine.Model;
+using MerchantFeeCalculationEngine.Processor;
 using Xunit;
 
 namespace XUnitTestForMerchantFeeCalculationEngineProject
 {
-    using MerchantFeeCalculationEngine.Model;
-    using System.Globalization;
-
     public class UnitTest
     {
         [Theory]

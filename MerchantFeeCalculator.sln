@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerchantFeeCalculator", "Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerchantFeeCalculationEngine", "MerchantFeeCalculationEngine\MerchantFeeCalculationEngine.csproj", "{9D219E81-9510-4B14-AD08-922922CE9330}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestForMerchantFeeCalculationEngineProject", "XUnitTestForMerchantFeeCalculationEngineProject\XUnitTestForMerchantFeeCalculationEngineProject.csproj", "{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerchantFeeCalculationEngineProject", "XUnitTestForMerchantFeeCalculationEngineProject\MerchantFeeCalculationEngineProject.csproj", "{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.SimpleDependencyInjector", "Common.SimpleDependencyInjector\Common.SimpleDependencyInjector.csproj", "{20B0882D-8766-48F2-8D20-14033E8145C0}"
 EndProject

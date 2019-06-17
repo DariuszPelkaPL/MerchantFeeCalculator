@@ -1,7 +1,6 @@
 ﻿using MerchantFeeCalculationEngine.Model;
-using System;
 
-namespace MerchantFeeCalculationEngine
+namespace MerchantFeeCalculationEngine.Processor
 {
     public class FeeCalculator : IFeeCalculator
     {
