@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerchantFeeCalculationEngin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestForMerchantFeeCalculationEngineProject", "XUnitTestForMerchantFeeCalculationEngineProject\XUnitTestForMerchantFeeCalculationEngineProject.csproj", "{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.SimpleDependencyInjector", "Common.SimpleDependencyInjector\Common.SimpleDependencyInjector.csproj", "{20B0882D-8766-48F2-8D20-14033E8145C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B0882D-8766-48F2-8D20-14033E8145C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B0882D-8766-48F2-8D20-14033E8145C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B0882D-8766-48F2-8D20-14033E8145C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B0882D-8766-48F2-8D20-14033E8145C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
