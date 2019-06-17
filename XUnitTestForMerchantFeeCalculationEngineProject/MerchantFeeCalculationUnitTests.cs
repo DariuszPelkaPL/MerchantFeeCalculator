@@ -35,6 +35,10 @@ namespace XUnitTestForMerchantFeeCalculationEngineProject
         [InlineData("TELIA", "2018-09-04", 1, 200, 10, 1.80)]
         [InlineData("TELIA", "2018-10-22", 1, 300, 10, 2.7)]
         [InlineData("TELIA", "2018-10-29", 1, 150, 10, 1.35)]
+        [InlineData("CIRCLE_K", "2018-09-02", 1, 120, 20, 0.96)]
+        [InlineData("CIRCLE_K", "2018-09-04", 1, 200, 20, 1.60)]
+        [InlineData("CIRCLE_K", "2018-10-22", 1, 300, 20, 2.40)]
+        [InlineData("CIRCLE_K", "2018-10-29", 1, 150, 20, 1.20)]
         public void FeeCalculator_ShouldCalculateFee_WhenDiscountProvided(string merchantName, string stringifiedTransactionDate, decimal percentageFee, decimal transactionAmount, decimal discount, decimal expectedFee)
         {
             // Arrange
