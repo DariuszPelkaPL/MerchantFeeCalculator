@@ -6,7 +6,7 @@ using Xunit;
 
 namespace XUnitTestForMerchantFeeCalculationEngineProject
 {
-    public class UnitTest
+    public class MerchantFeeCalculationUnitTests
     {
         [Theory]
         [InlineData("CIRCLE_K", "2018-09-02", 1, 120, 1.2)]
@@ -21,6 +21,28 @@ namespace XUnitTestForMerchantFeeCalculationEngineProject
             var transactionDateValid = DateTime.TryParseExact(stringifiedTransactionDate, "yyyy-MM-dd", null, DateTimeStyles.None, out transactionDate);
             var merchant = new Merchant() { Name = merchantName, FeeAsPercentage = percentageFee };
             var transaction = new Transaction() { Owner = merchant, Amount = transactionAmount, DoneOn = transactionDate};
+
+            // Act
+            var processedTransaction = calculator.CalculateFee(transaction, 1);
+
+            // Assert
+            Assert.True(transactionDateValid);
+            Assert.Equal(expectedFee, processedTransaction.Fee);
+        }
+
+        [Theory]
+        [InlineData("TELIA", "2018-09-02", 1, 120, 10, 1.08)]
+        [InlineData("TELIA", "2018-09-04", 1, 200, 10, 1.80)]
+        [InlineData("TELIA", "2018-10-22", 1, 300, 10, 2.7)]
+        [InlineData("TELIA", "2018-10-29", 1, 150, 10, 1.35)]
+        public void FeeCalculator_ShouldCalculateFee_WhenDiscountProvided(string merchantName, string stringifiedTransactionDate, decimal percentageFee, decimal transactionAmount, decimal discount, decimal expectedFee)
+        {
+            // Arrange
+            var calculator = new FeeCalculator();
+            DateTime transactionDate;
+            var transactionDateValid = DateTime.TryParseExact(stringifiedTransactionDate, "yyyy-MM-dd", null, DateTimeStyles.None, out transactionDate);
+            var merchant = new Merchant() { Name = merchantName, FeeAsPercentage = percentageFee, DiscountPercentage = discount};
+            var transaction = new Transaction() { Owner = merchant, Amount = transactionAmount, DoneOn = transactionDate };
 
             // Act
             var processedTransaction = calculator.CalculateFee(transaction, 1);

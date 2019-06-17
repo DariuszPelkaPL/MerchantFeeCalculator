@@ -8,7 +8,7 @@ namespace MerchantFeeCalculationEngine.Processor
         {
             var processedTransaction = new ProcessedTransaction(transaction);
             processedTransaction.Fee = processedTransaction.RelatedTransaction.Amount
-                                       * (processedTransaction.RelatedTransaction.Owner.FeeAsPercentage / 100);
+                                       * ((1 - (processedTransaction.RelatedTransaction.Owner.DiscountPercentage / 100)) * (processedTransaction.RelatedTransaction.Owner.FeeAsPercentage / 100));
             return processedTransaction;
         }
     }
