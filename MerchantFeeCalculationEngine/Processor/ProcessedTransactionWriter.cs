@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using MerchantFeeCalculationEngine.Model;
 
 namespace MerchantFeeCalculationEngine.Processor
 {
     public class ProcessedTransactionWriter : IProcessedTransactionWriter
     {
-        public string ConvertTransactionToTextEntry(MerchantFeeCalculationEngine.Model.Transaction transactions)
+        public string ConvertTransactionToTextEntry(ProcessedTransaction transaction)
         {
-            return String.Empty;
+            return $"{transaction.Fee,5}";
         }
     }
 }

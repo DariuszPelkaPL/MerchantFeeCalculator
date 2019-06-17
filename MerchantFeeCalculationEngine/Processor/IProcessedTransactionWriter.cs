@@ -4,8 +4,10 @@ using System.Text;
 
 namespace MerchantFeeCalculationEngine.Processor
 {
+    using MerchantFeeCalculationEngine.Model;
+
     public interface IProcessedTransactionWriter
     {
-        string ConvertTransactionToTextEntry(MerchantFeeCalculationEngine.Model.Transaction transactions);
+        string ConvertTransactionToTextEntry(ProcessedTransaction transactions);
     }
 }
