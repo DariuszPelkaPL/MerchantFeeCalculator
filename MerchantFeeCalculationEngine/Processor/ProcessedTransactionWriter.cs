@@ -7,7 +7,9 @@ namespace MerchantFeeCalculationEngine.Processor
     {
         public string ConvertTransactionToTextEntry(ProcessedTransaction transaction)
         {
-            return $"{transaction.Fee,5}";
+            var stringifiedFee = transaction.Fee.ToString("0.00");
+            var stringifiedDate = transaction.RelatedTransaction.DoneOn.ToString("yyyy-MM-dd");
+            return $"{stringifiedDate,10} {transaction.RelatedTransaction.Owner.Name,8} {stringifiedFee,3}";
         }
     }
 }
