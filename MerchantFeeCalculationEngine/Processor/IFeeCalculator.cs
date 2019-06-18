@@ -1,7 +1,8 @@
-﻿namespace MerchantFeeCalculationEngine.Processor
+﻿using System.Collections.Generic;
+using MerchantFeeCalculationEngine.Model;
+
+namespace MerchantFeeCalculationEngine.Processor
 {
-    using MerchantFeeCalculationEngine.Model;
-    using System.Collections.Generic;
 
     public interface IFeeCalculator
     {

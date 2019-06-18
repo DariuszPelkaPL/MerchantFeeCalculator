@@ -68,6 +68,7 @@ namespace MerchantFeeCalculator
                     var transactionParser = (ITransactionParser)DependencyInjector.CreateInstance(typeof(ITransactionParser));
                     var processedTransactionWriter = (IProcessedTransactionWriter)DependencyInjector.CreateInstance(typeof(IProcessedTransactionWriter));
                     string line;
+                    var transactions = new List<Transaction>();
 
                     // Read the file and display it line by line.  
                     StreamReader file =
@@ -76,21 +77,27 @@ namespace MerchantFeeCalculator
                     {
                         var transaction = transactionParser.ParseTransactionEntry(line);
                         transaction.Owner = merchants[transaction.Owner.Name];
-
-                        if (calculator != null)
-                        {
-                            var processedTransaction = calculator.CalculateFee(transaction);
-                            var stringifiedProcessedTransaction = processedTransactionWriter.ConvertTransactionToTextEntry(processedTransaction);
-                            Console.WriteLine(stringifiedProcessedTransaction);
-                        }
+                        transactions.Add(transaction);
                     }
                     file.Close();
+
+                    var processedTransactions = calculator.CalculateMonthlyFees(transactions);
+
+                    foreach (var transaction in processedTransactions)
+                    {
+                        var stringifiedTransaction =
+                            processedTransactionWriter.ConvertTransactionToTextEntry(transaction);
+                        Console.WriteLine(stringifiedTransaction);
+                    }
                 }
                 else
                 {
                     throw new ArgumentException("Transaction file does not exist");
                 }
+
+                Console.ReadLine();
             }
         }
+
     }
 }
