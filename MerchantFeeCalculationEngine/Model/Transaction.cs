@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MerchantFeeCalculationEngine.Model
+namespace Danskebank.MerchantFeeCalculationEngine.Model
 {
     public class Transaction
     {

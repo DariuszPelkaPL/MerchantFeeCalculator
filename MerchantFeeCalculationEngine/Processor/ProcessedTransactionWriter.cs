@@ -1,7 +1,6 @@
-﻿using System;
-using MerchantFeeCalculationEngine.Model;
+﻿using DankseBank.MerchantFeeCalculationEngine.Model;
 
-namespace MerchantFeeCalculationEngine.Processor
+namespace Danskebank.MerchantFeeCalculationEngine.Processor
 {
     public class ProcessedTransactionWriter : IProcessedTransactionWriter
     {

@@ -1,7 +1,7 @@
-﻿using MerchantFeeCalculationEngine.Model;
-using System;
+﻿using System;
+using Danskebank.MerchantFeeCalculationEngine.Model;
 
-namespace MerchantFeeCalculationEngine.Processor
+namespace Danskebank.MerchantFeeCalculationEngine.Processor
 {
     public class MerchantParser : IMerchantParser
     {

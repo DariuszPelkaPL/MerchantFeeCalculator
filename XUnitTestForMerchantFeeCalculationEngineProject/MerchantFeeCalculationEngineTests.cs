@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using MerchantFeeCalculationEngine.Model;
-using MerchantFeeCalculationEngine.Processor;
+using Danskebank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculationEngine.Processor;
 using Xunit;
 
-namespace XUnitTestForMerchantFeeCalculationEngineProject
+namespace Danskebank.MerchantFeeCalculationEngineTests
 {
-    public class MerchantFeeCalculationUnitTests
+    public class MerchantFeeCalculationEngineTests
     {
         private readonly string netto = "NETTO";
         private readonly string circleK = "CIRCLE_K";

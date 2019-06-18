@@ -1,10 +1,10 @@
-﻿using MerchantFeeCalculationEngine.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DankseBank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculationEngine.Model;
 
-namespace MerchantFeeCalculationEngine.Processor
+namespace Danskebank.MerchantFeeCalculationEngine.Processor
 {
-    using System.Linq;
-
     public class FeeCalculator : IFeeCalculator
     {
         private decimal monthlyFee = 29;

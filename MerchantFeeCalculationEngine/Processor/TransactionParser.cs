@@ -1,8 +1,8 @@
-﻿using MerchantFeeCalculationEngine.Model;
-using System;
+﻿using System;
 using System.Globalization;
+using Danskebank.MerchantFeeCalculationEngine.Model;
 
-namespace MerchantFeeCalculationEngine.Processor
+namespace Danskebank.MerchantFeeCalculationEngine.Processor
 {
     public class TransactionParser : ITransactionParser
     {

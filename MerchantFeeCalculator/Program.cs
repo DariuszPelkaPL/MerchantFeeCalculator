@@ -1,12 +1,13 @@
 ﻿using System;
-using Common.SimpleDependencyInjector;
-using MerchantFeeCalculationEngine.Model;
-using MerchantFeeCalculationEngine.Processor;
+using System.Collections.Generic;
+using System.IO;
+using DankseBank.Common;
+using Danskebank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculationEngine.Processor;
 
-namespace MerchantFeeCalculator
+namespace Danskebank.MerchantFeeCalculator
 {
-    using System.Collections.Generic;
-    using System.IO;
+
 
     public class Program
     {

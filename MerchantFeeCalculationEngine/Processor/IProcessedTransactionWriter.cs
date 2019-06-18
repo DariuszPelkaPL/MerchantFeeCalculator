@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DankseBank.MerchantFeeCalculationEngine.Model;
 
-namespace MerchantFeeCalculationEngine.Processor
+namespace Danskebank.MerchantFeeCalculationEngine.Processor
 {
-    using MerchantFeeCalculationEngine.Model;
-
     public interface IProcessedTransactionWriter
     {
         string ConvertTransactionToTextEntry(ProcessedTransaction transactions);

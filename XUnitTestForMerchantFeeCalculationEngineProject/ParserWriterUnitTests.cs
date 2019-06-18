@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using MerchantFeeCalculationEngine.Model;
-using MerchantFeeCalculationEngine.Processor;
+using DankseBank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculationEngine.Processor;
 using Xunit;
 
-namespace MerchantFeeCalculationEngineTestProject
+namespace Danskebank.MerchantFeeCalculationEngineTests
 {
-    public class ParserUnitTests
+    public class ParserWriterUnitTests
     {
         [Fact]
         public void TransactionParser_ShouldParseTransaction_WhenCorrectDataProvided()
