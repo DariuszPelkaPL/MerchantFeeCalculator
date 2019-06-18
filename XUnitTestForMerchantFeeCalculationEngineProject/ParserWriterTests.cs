@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Danskebank.MerchantFeeCalculationEngineTests
 {
-    public class ParserWriterUnitTests
+    public class ParserWriterTests
     {
         [Fact]
         public void TransactionParser_ShouldParseTransaction_WhenCorrectDataProvided()
