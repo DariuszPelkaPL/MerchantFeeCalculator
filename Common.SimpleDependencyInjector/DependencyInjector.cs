@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace DankseBank.Common
 {
-    using System.Collections.Generic;
-
     public class DependencyInjector
     {
         private static IDictionary<Type, Type> assignments = new Dictionary<Type, Type>();

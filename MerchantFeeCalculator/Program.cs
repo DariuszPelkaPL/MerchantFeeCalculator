@@ -7,15 +7,26 @@ using Danskebank.MerchantFeeCalculationEngine.Processor;
 
 namespace Danskebank.MerchantFeeCalculator
 {
+    using DanskeBank.Common;
     using DanskeBank.MerchantFeeCalculationEngine.FileReader;
 
     public class Program
     {
+        private static ILogger logger = null;
+
         public static void Main(string[] args)
         {
             var merchantFile = string.Empty;
             var transactionstFile = string.Empty;
             IDictionary<string, Merchant> merchants = new Dictionary<string, Merchant>();
+            DependencyInjector.Assign(typeof(ITransactionParser), typeof(TransactionParser));
+            DependencyInjector.Assign(typeof(IMerchantParser), typeof(MerchantParser));
+            DependencyInjector.Assign(typeof(IFeeCalculator), typeof(FeeCalculator));
+            DependencyInjector.Assign(typeof(IProcessedTransactionWriter), typeof(ProcessedTransactionWriter));
+            DependencyInjector.Assign(typeof(IMerchantReader), typeof(MerchantReader));
+            DependencyInjector.Assign(typeof(ITransactionFileReader), typeof(TransactionFileReader));
+            DependencyInjector.Assign(typeof(ILogger), typeof(Logger));
+            logger = (ILogger)DependencyInjector.CreateInstance(typeof(ILogger));
 
             if (args == null || args.Length == 0)
             {
@@ -32,65 +43,95 @@ namespace Danskebank.MerchantFeeCalculator
                 throw new ArgumentException("Wrong parameters");
             }
 
-            DependencyInjector.Assign(typeof(ITransactionParser), typeof(TransactionParser));
-            DependencyInjector.Assign(typeof(IMerchantParser), typeof(MerchantParser));
-            DependencyInjector.Assign(typeof(IFeeCalculator), typeof(FeeCalculator));
-            DependencyInjector.Assign(typeof(IProcessedTransactionWriter), typeof(ProcessedTransactionWriter));
-            DependencyInjector.Assign(typeof(IMerchantReader), typeof(MerchantReader));
-            DependencyInjector.Assign(typeof(ITransactionFileReader), typeof(TransactionFileReader));
+            merchants = ReadMerchants(merchantFile);
+            ReadTransactions(transactionstFile, merchants);
+
+            Console.ReadLine();
+        }
+
+        private static IDictionary<string, Merchant> ReadMerchants(string merchantFile)
+        {
+            IDictionary<string, Merchant> merchants = new Dictionary<string, Merchant>();
 
             if (!string.IsNullOrEmpty(merchantFile))
             {
-                if (File.Exists(merchantFile))
+                try
                 {
-                    var merchantParser = (IMerchantParser)DependencyInjector.CreateInstance(typeof(IMerchantParser));
-                    var merchantReader = (IMerchantReader)DependencyInjector.CreateInstance(typeof(IMerchantReader));
-
-                    // Read the file and display it line by line.  
-                    StreamReader file =
-                        new StreamReader(merchantFile);
-                    merchants = merchantReader.Read(file, merchantParser);
-                    file.Close();
-                }
-                else
-                {
-                    throw new ArgumentException("Merchant file does not exist");
-                }
-            }
-
-            if (!string.IsNullOrEmpty(transactionstFile))
-            {
-                if (File.Exists(merchantFile))
-                {
-                    var calculator = (IFeeCalculator)DependencyInjector.CreateInstance(typeof(IFeeCalculator));
-                    var transactionParser = (ITransactionParser)DependencyInjector.CreateInstance(typeof(ITransactionParser));
-                    var processedTransactionWriter = (IProcessedTransactionWriter)DependencyInjector.CreateInstance(typeof(IProcessedTransactionWriter));
-                    var merchantReader = (IMerchantReader)DependencyInjector.CreateInstance(typeof(IMerchantReader));
-
-                    // Read the file and display it line by line.  
-                    StreamReader file =
-                        new StreamReader(transactionstFile);
-                    var transactionReader = (ITransactionFileReader)DependencyInjector.CreateInstance(typeof(ITransactionFileReader));
-                    var transactions = transactionReader.Read(file, merchants, transactionParser);
-                    file.Close();
-
-                    var processedTransactions = calculator.CalculateMonthlyFees(transactions);
-
-                    foreach (var transaction in processedTransactions)
+                    if (File.Exists(merchantFile))
                     {
-                        var stringifiedTransaction =
-                            processedTransactionWriter.ConvertTransactionToTextEntry(transaction);
-                        Console.WriteLine(stringifiedTransaction);
+                        var merchantParser =
+                            (IMerchantParser)DependencyInjector.CreateInstance(typeof(IMerchantParser));
+                        var merchantReader =
+                            (IMerchantReader)DependencyInjector.CreateInstance(typeof(IMerchantReader));
+
+                        StreamReader file = new StreamReader(merchantFile);
+                        merchants = merchantReader.Read(file, merchantParser);
+                        file.Close();
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Merchant file does not exist");
                     }
                 }
-                else
+                catch (Exception exception)
                 {
-                    throw new ArgumentException("Transaction file does not exist");
+                    string message = $"Error while processing fees: {exception.Message}";
+                    logger.WriteError(message);
                 }
-
-                Console.ReadLine();
             }
+
+            return merchants;
         }
 
+        private static void ReadTransactions(string transactionstFile, IDictionary<string, Merchant> merchants)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(transactionstFile))
+                {
+                    if (File.Exists(transactionstFile))
+                    {
+                        StreamReader file = new StreamReader(transactionstFile);
+                        var calculator = (IFeeCalculator)DependencyInjector.CreateInstance(typeof(IFeeCalculator));
+                        var transactionParser =
+                            (ITransactionParser)DependencyInjector.CreateInstance(typeof(ITransactionParser));
+                        var processedTransactionWriter =
+                            (IProcessedTransactionWriter)DependencyInjector.CreateInstance(
+                                typeof(IProcessedTransactionWriter));
+                        var transactionReader =
+                            (ITransactionFileReader)DependencyInjector.CreateInstance(typeof(ITransactionFileReader));
+
+                        var transactions = transactionReader.Read(file, merchants, transactionParser);
+                        var processedTransactions = calculator.CalculateMonthlyFees(transactions);
+                        var monthNumber = 0;
+
+                        foreach (var transaction in processedTransactions)
+                        {
+                            if (monthNumber != 0 && monthNumber != transaction.RelatedTransaction.DoneOn.Month)
+                            {
+                                Console.WriteLine("\n");
+                            }
+
+                            var stringifiedTransaction =
+                                processedTransactionWriter.ConvertTransactionToTextEntry(transaction);
+                            Console.WriteLine(stringifiedTransaction);
+                            monthNumber = transaction.RelatedTransaction.DoneOn.Month;
+                        }
+
+                        file.Close();
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Transaction file does not exist");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                string message = $"Error while processing fees: {exception.Message}";
+                logger.WriteError(message);
+            }
+        }
     }
+
 }

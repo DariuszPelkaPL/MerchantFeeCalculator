@@ -23,10 +23,10 @@ namespace Danskebank.MerchantFeeCalculationEngine.Processor
                 {
                     return new
                        {
-                          Name = m.Key.Name,
-                          Year = m.Key.Year,
-                          Month = m.Key.Month,
-                          FirstDate = m.Min(n => n.DoneOn)
+                        m.Key.Name,
+                        m.Key.Year,
+                        m.Key.Month,
+                        FirstDate = m.Min(n => n.DoneOn)
                     };
                 });
 

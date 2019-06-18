@@ -43,7 +43,8 @@ namespace Danskebank.MerchantFeeCalculationEngineTests
         {
             // Arrange
             var writer = new ProcessedTransactionWriter();
-            var transaction = new ProcessedTransaction(new Transaction() { Amount = 100, Owner = new Merchant() { Name = "7-ELEVEN" }, DoneOn = new DateTime(2018, 9, 1) });
+            ProcessedTransaction processedTransaction = new ProcessedTransaction(new Transaction() { Amount = 100, Owner = new Merchant() { Name = "7-ELEVEN" }, DoneOn = new DateTime(2018, 9, 1) });
+            var transaction = processedTransaction;
             transaction.Fee = 30;
 
             // Act
