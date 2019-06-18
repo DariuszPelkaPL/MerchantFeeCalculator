@@ -7,6 +7,8 @@ using Xunit;
 
 namespace DanskeBank.MerchantFeeCalculationEngineTests
 {
+    using System;
+
     public class FileReaderTests
     {
         private readonly string netto = "NETTO";
@@ -26,7 +28,7 @@ namespace DanskeBank.MerchantFeeCalculationEngineTests
 
             var transactionReader = new TransactionFileReader();
             var text = @"2018-09-01 7-ELEVEN 100
-2018-09-04 CIRCLE_K 100";
+2018-09-04 CIRCLE_K 200";
             var memoryStream = GenerateStreamFromString(text);
             StreamReader reader = new StreamReader(memoryStream);
 
@@ -35,6 +37,38 @@ namespace DanskeBank.MerchantFeeCalculationEngineTests
 
             // Assert
             Assert.Equal(2, transactions.Count);
+            Assert.Equal(sevenEleven, transactions[0].Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 1), transactions[0].DoneOn);
+            Assert.Equal(100M, transactions[0].Amount);
+
+            Assert.Equal(circleK, transactions[1].Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 4), transactions[1].DoneOn);
+            Assert.Equal(200M, transactions[1].Amount);
+        }
+
+        [Fact]
+        public void MerchantFileReader_ShouldReadmerchants_WhenCorrectDataProvided()
+        {
+            // Arrange
+            var merchantReader = new MerchantReader();
+            var text = @"7-ELEVEN 1 0 
+CIRCLE_K 1 20";
+            var memoryStream = GenerateStreamFromString(text);
+            StreamReader reader = new StreamReader(memoryStream);
+
+            // Act
+            var merrhants = merchantReader.Read(reader, new MerchantParser());
+
+            // Assert
+            Assert.Equal(2, merrhants.Count);
+
+            Assert.Equal(sevenEleven, merrhants[sevenEleven].Name);
+            Assert.Equal(0, merrhants[sevenEleven].DiscountPercentage);
+            Assert.Equal(1, merrhants[sevenEleven].FeeAsPercentage);
+
+            Assert.Equal(circleK, merrhants[circleK].Name);
+            Assert.Equal(20, merrhants[circleK].DiscountPercentage);
+            Assert.Equal(1, merrhants[circleK].FeeAsPercentage);
         }
 
         private MemoryStream GenerateStreamFromString(string text)
