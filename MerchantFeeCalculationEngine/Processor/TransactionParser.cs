@@ -22,8 +22,8 @@ namespace MerchantFeeCalculationEngine.Processor
                 throw new ArgumentException("Improper format of transaction amount");
             }
             var merchant = stringifiedTransaction.Substring(11, 8);
-            var transactionList = new Transaction() { Amount = amount, Owner = new Merchant() { Name = merchant}, DoneOn = transactionDate};
-            return transactionList;
+            var transaction = new Transaction() { Amount = amount, Owner = new Merchant() { Name = merchant}, DoneOn = transactionDate};
+            return transaction;
         }
     }
 }
