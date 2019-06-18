@@ -7,7 +7,7 @@ using Danskebank.MerchantFeeCalculationEngine.Processor;
 
 namespace Danskebank.MerchantFeeCalculator
 {
-
+    using DanskeBank.MerchantFeeCalculationEngine.FileReader;
 
     public class Program
     {
@@ -15,7 +15,7 @@ namespace Danskebank.MerchantFeeCalculator
         {
             var merchantFile = string.Empty;
             var transactionstFile = string.Empty;
-            var merchants = new Dictionary<string, Merchant>();
+            IDictionary<string, Merchant> merchants = new Dictionary<string, Merchant>();
 
             if (args == null || args.Length == 0)
             {
@@ -36,23 +36,20 @@ namespace Danskebank.MerchantFeeCalculator
             DependencyInjector.Assign(typeof(IMerchantParser), typeof(MerchantParser));
             DependencyInjector.Assign(typeof(IFeeCalculator), typeof(FeeCalculator));
             DependencyInjector.Assign(typeof(IProcessedTransactionWriter), typeof(ProcessedTransactionWriter));
+            DependencyInjector.Assign(typeof(IMerchantReader), typeof(MerchantReader));
+            DependencyInjector.Assign(typeof(ITransactionFileReader), typeof(TransactionFileReader));
 
             if (!string.IsNullOrEmpty(merchantFile))
             {
                 if (File.Exists(merchantFile))
                 {
                     var merchantParser = (IMerchantParser)DependencyInjector.CreateInstance(typeof(IMerchantParser));
-                    string line;
+                    var merchantReader = (IMerchantReader)DependencyInjector.CreateInstance(typeof(IMerchantReader));
 
                     // Read the file and display it line by line.  
                     StreamReader file =
                         new StreamReader(merchantFile);
-                    while ((line = file.ReadLine()) != null)
-                    {
-                        var merchant = merchantParser.ParseMerchantEntry(line);
-                        merchants.Add(merchant.Name, merchant);
-                    }
-
+                    merchants = merchantReader.Read(file, merchantParser);
                     file.Close();
                 }
                 else
@@ -68,18 +65,13 @@ namespace Danskebank.MerchantFeeCalculator
                     var calculator = (IFeeCalculator)DependencyInjector.CreateInstance(typeof(IFeeCalculator));
                     var transactionParser = (ITransactionParser)DependencyInjector.CreateInstance(typeof(ITransactionParser));
                     var processedTransactionWriter = (IProcessedTransactionWriter)DependencyInjector.CreateInstance(typeof(IProcessedTransactionWriter));
-                    string line;
-                    var transactions = new List<Transaction>();
+                    var merchantReader = (IMerchantReader)DependencyInjector.CreateInstance(typeof(IMerchantReader));
 
                     // Read the file and display it line by line.  
                     StreamReader file =
                         new StreamReader(transactionstFile);
-                    while ((line = file.ReadLine()) != null)
-                    {
-                        var transaction = transactionParser.ParseTransactionEntry(line);
-                        transaction.Owner = merchants[transaction.Owner.Name];
-                        transactions.Add(transaction);
-                    }
+                    var transactionReader = (ITransactionFileReader)DependencyInjector.CreateInstance(typeof(ITransactionFileReader));
+                    var transactions = transactionReader.Read(file, merchants, transactionParser);
                     file.Close();
 
                     var processedTransactions = calculator.CalculateMonthlyFees(transactions);
