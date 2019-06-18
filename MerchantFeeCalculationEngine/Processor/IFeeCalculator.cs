@@ -5,8 +5,8 @@
 
     public interface IFeeCalculator
     {
-        ProcessedTransaction CalculateFee(Transaction transaction, decimal fee);
+        ProcessedTransaction CalculateFee(Transaction transaction);
 
-        IList<ProcessedTransaction> CalculateFees(IList<ProcessedTransaction> processedTransactions);
+        IList<ProcessedTransaction> CalculateMonthlyFees(IList<Transaction> transactions);
     }
 }

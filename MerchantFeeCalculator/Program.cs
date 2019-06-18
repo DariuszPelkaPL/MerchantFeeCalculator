@@ -72,7 +72,7 @@ namespace MerchantFeeCalculator
                         var transaction = transactionParser.ParseTransactionEntry(line);
                         if (calculator != null)
                         {
-                            var processedTransaction = calculator.CalculateFee(new Transaction() { Owner = new Merchant() }, 1);
+                            var processedTransaction = calculator.CalculateFee(new Transaction() { Owner = new Merchant() {FeeAsPercentage = 1} });
                             var stringifiedProcessedTransaction = processedTransactionWriter.ConvertTransactionToTextEntry(processedTransaction);
                             Console.WriteLine(stringifiedProcessedTransaction);
                         }
