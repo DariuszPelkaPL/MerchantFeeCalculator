@@ -4,13 +4,12 @@ namespace DankseBank.MerchantFeeCalculationEngine.Model
 {
     public class ProcessedTransaction 
     {
+        private Transaction _trnsaction = null;
+
         public ProcessedTransaction(Transaction transaction)
         {
             this._trnsaction = transaction;
         }
-
-        private Transaction _trnsaction = null;
-        private decimal _fee = 0;
 
         public Transaction RelatedTransaction
         {
