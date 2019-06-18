@@ -14,6 +14,7 @@ namespace MerchantFeeCalculator
         {
             var merchantFile = string.Empty;
             var transactionstFile = string.Empty;
+            var merchants = new Dictionary<string, Merchant>();
 
             if (args == null || args.Length == 0)
             {
@@ -30,9 +31,12 @@ namespace MerchantFeeCalculator
                 throw new ArgumentException("Wrong parameters");
             }
 
-            var merchants = new Dictionary<string, Merchant>();
+            DependencyInjector.Assign(typeof(ITransactionParser), typeof(TransactionParser));
+            DependencyInjector.Assign(typeof(IMerchantParser), typeof(MerchantParser));
+            DependencyInjector.Assign(typeof(IFeeCalculator), typeof(FeeCalculator));
+            DependencyInjector.Assign(typeof(IProcessedTransactionWriter), typeof(ProcessedTransactionWriter));
 
-            if (string.IsNullOrEmpty(merchantFile))
+            if (!string.IsNullOrEmpty(merchantFile))
             {
                 if (File.Exists(merchantFile))
                 {
@@ -45,6 +49,7 @@ namespace MerchantFeeCalculator
                     while ((line = file.ReadLine()) != null)
                     {
                         var merchant = merchantParser.ParseMerchantEntry(line);
+                        merchants.Add(merchant.Name, merchant);
                     }
 
                     file.Close();
@@ -55,7 +60,7 @@ namespace MerchantFeeCalculator
                 }
             }
 
-            if (string.IsNullOrEmpty(transactionstFile))
+            if (!string.IsNullOrEmpty(transactionstFile))
             {
                 if (File.Exists(merchantFile))
                 {
@@ -66,20 +71,22 @@ namespace MerchantFeeCalculator
 
                     // Read the file and display it line by line.  
                     StreamReader file =
-                        new StreamReader(merchantFile);
+                        new StreamReader(transactionstFile);
                     while ((line = file.ReadLine()) != null)
                     {
                         var transaction = transactionParser.ParseTransactionEntry(line);
+                        transaction.Owner = merchants[transaction.Owner.Name];
+
                         if (calculator != null)
                         {
-                            var processedTransaction = calculator.CalculateFee(new Transaction() { Owner = new Merchant() {FeeAsPercentage = 1} });
+                            var processedTransaction = calculator.CalculateFee(transaction);
                             var stringifiedProcessedTransaction = processedTransactionWriter.ConvertTransactionToTextEntry(processedTransaction);
                             Console.WriteLine(stringifiedProcessedTransaction);
                         }
                     }
-
                     file.Close();
                 }
+                else
                 {
                     throw new ArgumentException("Transaction file does not exist");
                 }
