@@ -7,6 +7,8 @@ using Xunit;
 
 namespace Danskebank.MerchantFeeCalculationEngineTests
 {
+    using System.Linq;
+
     public class MerchantFeeCalculationEngineTests
     {
         private readonly string netto = "NETTO";
@@ -67,10 +69,10 @@ namespace Danskebank.MerchantFeeCalculationEngineTests
         {
             // Arrange
             var merchants = new Dictionary<string, Merchant>();
-            merchants.Add("7-ELEVEN", new Merchant() { DiscountPercentage = 0, Name = sevenEleven, FeeAsPercentage = 1 });
-            merchants.Add("CIRCLE_K", new Merchant() { DiscountPercentage = 20, Name = circleK, FeeAsPercentage = 1 });
-            merchants.Add("TELIA", new Merchant() { DiscountPercentage = 10, Name = telia, FeeAsPercentage = 1 });
-            merchants.Add("NETTO", new Merchant() { DiscountPercentage = 0, Name = netto, FeeAsPercentage = 1 });
+            merchants.Add(sevenEleven, new Merchant() { DiscountPercentage = 0, Name = sevenEleven, FeeAsPercentage = 1 });
+            merchants.Add(circleK, new Merchant() { DiscountPercentage = 20, Name = circleK, FeeAsPercentage = 1 });
+            merchants.Add(telia, new Merchant() { DiscountPercentage = 10, Name = telia, FeeAsPercentage = 1 });
+            merchants.Add(netto, new Merchant() { DiscountPercentage = 0, Name = netto, FeeAsPercentage = 1 });
 
             List<Transaction> transactions = new List<Transaction>
                                  {
@@ -172,7 +174,120 @@ namespace Danskebank.MerchantFeeCalculationEngineTests
             Assert.Equal(0.8M, processedTransactions[18].Fee);
             Assert.Equal(circleK, processedTransactions[18].RelatedTransaction.Owner.Name);
             Assert.Equal(new DateTime(2018, 10, 22), processedTransactions[18].RelatedTransaction.DoneOn);
+        }
 
+
+        [Fact]
+        public void FeeCalculator_ShouldNotAddMonthlyFee_WhenFeeIsZero()
+        {
+            // IWe check following requirement-If transaction fee is 0 after applying discounts, InvoiceFee should not be added
+
+           // Arrange
+           var merchants = new Dictionary<string, Merchant>();
+            merchants.Add(sevenEleven, new Merchant() { DiscountPercentage = 0, Name = sevenEleven, FeeAsPercentage = 0 });
+
+            List<Transaction> transactions = new List<Transaction>
+                                 {
+                                     new Transaction{ DoneOn = new DateTime(2018, 9, 1), Amount = 100, Owner = merchants[sevenEleven] },
+                                     new Transaction{ DoneOn = new DateTime(2018, 9, 19), Amount = 100, Owner = merchants[sevenEleven] },
+                                 };
+
+            var calculator = new FeeCalculator();
+
+            // Act
+            var processedTransactions = calculator.CalculateMonthlyFees(transactions);
+
+            // Assert
+            Assert.Equal(transactions.Count, processedTransactions.Count);
+
+            // Month #9
+            Assert.Equal(0, processedTransactions[0].Fee);
+            Assert.Equal(sevenEleven, processedTransactions[0].RelatedTransaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 1), processedTransactions[0].RelatedTransaction.DoneOn);
+
+            Assert.Equal(0, processedTransactions[1].Fee);
+            Assert.Equal(sevenEleven, processedTransactions[1].RelatedTransaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 19), processedTransactions[1].RelatedTransaction.DoneOn);
+        }
+
+        [Fact]
+        public void FeeCalculator_ShouldAddMonthlyFeeAsFirstEntry_WhenFeeIsNonZero()
+        {
+            // We check following requirementInvoice Fee should be included in the fee for first transaction of the month
+
+            // Arrange
+            var merchants = new Dictionary<string, Merchant>();
+            merchants.Add(sevenEleven, new Merchant() { DiscountPercentage = 0, Name = sevenEleven, FeeAsPercentage = 1 });
+
+            List<Transaction> transactions = new List<Transaction>
+                                                 {
+                                                     new Transaction{ DoneOn = new DateTime(2018, 9, 1), Amount = 100, Owner = merchants[sevenEleven] },
+                                                     new Transaction{ DoneOn = new DateTime(2018, 9, 19), Amount = 100, Owner = merchants[sevenEleven] },
+                                                 };
+
+            var calculator = new FeeCalculator();
+
+            // Act
+            var processedTransactions = calculator.CalculateMonthlyFees(transactions);
+
+            // Assert
+            Assert.Equal(transactions.Count, processedTransactions.Count);
+
+            // Month #9
+            Assert.Equal(30M, processedTransactions[0].Fee);
+            Assert.Equal(sevenEleven, processedTransactions[0].RelatedTransaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 1), processedTransactions[0].RelatedTransaction.DoneOn);
+
+            Assert.Equal(1M, processedTransactions[1].Fee);
+            Assert.Equal(sevenEleven, processedTransactions[1].RelatedTransaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 19), processedTransactions[1].RelatedTransaction.DoneOn);
+        }
+
+        [Fact]
+        public void FeeCalculator_ShouldAddMonthlyFee_WhenAtLeastOneTransaction()
+        {
+            // We check following requirementInvoice Fee should be included in the fee for first transaction of the month
+
+            // Arrange
+            var merchants = new Dictionary<string, Merchant>();
+            merchants.Add(sevenEleven, new Merchant() { DiscountPercentage = 0, Name = sevenEleven, FeeAsPercentage = 1 });
+            merchants.Add(circleK, new Merchant() { DiscountPercentage = 0, Name = circleK, FeeAsPercentage = 2 });
+
+            List<Transaction> transactions = new List<Transaction>
+                                                 {
+                                                     new Transaction{ DoneOn = new DateTime(2018, 9, 1), Amount = 100, Owner = merchants[sevenEleven] },
+                                                     new Transaction{ DoneOn = new DateTime(2018, 9, 19), Amount = 100, Owner = merchants[sevenEleven] },
+                                                     new Transaction{ DoneOn = new DateTime(2018, 10, 19), Amount = 100, Owner = merchants[circleK] },
+                                                 };
+
+            var calculator = new FeeCalculator();
+
+            // Act
+            var processedTransactions = calculator.CalculateMonthlyFees(transactions);
+
+            // Assert
+            Assert.Equal(transactions.Count, processedTransactions.Count);
+
+            // Month #9
+            Assert.Equal(30M, processedTransactions[0].Fee);
+            Assert.Equal(sevenEleven, processedTransactions[0].RelatedTransaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 1), processedTransactions[0].RelatedTransaction.DoneOn);
+
+            Assert.Equal(1M, processedTransactions[1].Fee);
+            Assert.Equal(sevenEleven, processedTransactions[1].RelatedTransaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 19), processedTransactions[1].RelatedTransaction.DoneOn);
+
+            // Month #10
+            Assert.Equal(31M, processedTransactions[2].Fee);
+            Assert.Equal(circleK, processedTransactions[2].RelatedTransaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 10, 19), processedTransactions[2].RelatedTransaction.DoneOn);
+
+            var numberOfFeesInMonth9th =
+                processedTransactions.Count(m => m.RelatedTransaction.Owner.Name == sevenEleven && m.RelatedTransaction.DoneOn.Month == 9);
+            Assert.Equal(2, numberOfFeesInMonth9th);
+            var numberOfFeesInMonth10th =
+                processedTransactions.Count(m => m.RelatedTransaction.Owner.Name == sevenEleven && m.RelatedTransaction.DoneOn.Month == 10);
+            Assert.Equal(0, numberOfFeesInMonth10th);
         }
     }
 }
