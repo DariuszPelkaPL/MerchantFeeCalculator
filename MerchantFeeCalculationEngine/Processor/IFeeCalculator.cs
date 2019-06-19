@@ -8,7 +8,5 @@ namespace Danskebank.MerchantFeeCalculationEngine.Processor
     public interface IFeeCalculator
     {
         ProcessedTransaction CalculateFee(Transaction transaction);
-
-        IList<ProcessedTransaction> CalculateMonthlyFees(IList<Transaction> transactions);
     }
 }

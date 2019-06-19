@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DankseBank.MerchantFeeCalculationEngine.Model;
 using Danskebank.MerchantFeeCalculationEngine.Model;
@@ -7,47 +8,40 @@ namespace Danskebank.MerchantFeeCalculationEngine.Processor
 {
     public class FeeCalculator : IFeeCalculator
     {
+        private static IDictionary<string, IList<string>> monthlyFeePaid = new Dictionary<string, IList<string>>();
         private decimal monthlyFee = 29;
 
         public ProcessedTransaction CalculateFee(Transaction transaction)
         {
+            bool monthlyFeeWasPaid = true;
+
             var processedTransaction = new ProcessedTransaction(transaction);
             processedTransaction.Fee = processedTransaction.RelatedTransaction.Amount
                                        * ((1 - (processedTransaction.RelatedTransaction.Owner.DiscountPercentage / 100)) * (processedTransaction.RelatedTransaction.Owner.FeeAsPercentage / 100));
-            return processedTransaction;
-        }
+            string stringifiedMonthAndYear = processedTransaction.RelatedTransaction.DoneOn.ToString("YYYYMM");
 
-        public IList<ProcessedTransaction> CalculateMonthlyFees(IList<Transaction> transactions)
-        {
-            var grouoedTransactions = transactions.GroupBy(m => new { m.Owner.Name, m.DoneOn.Year, m.DoneOn.Month}).Select(m =>
-                {
-                    return new
-                       {
-                        m.Key.Name,
-                        m.Key.Year,
-                        m.Key.Month,
-                        FirstDate = m.Min(n => n.DoneOn)
-                    };
-                });
-
-            IList<ProcessedTransaction> processedTransactions = new List<ProcessedTransaction>();
-
-            foreach (var transaction in transactions)
+            if (!monthlyFeePaid.ContainsKey(stringifiedMonthAndYear))
             {
-                var processedTransaction = this.CalculateFee(transaction);
-                processedTransactions.Add(processedTransaction);
+                monthlyFeePaid[stringifiedMonthAndYear] = new List<string>();
+                monthlyFeePaid[stringifiedMonthAndYear].Add(processedTransaction.RelatedTransaction.Owner.Name);
+                monthlyFeeWasPaid = false;
             }
-
-            foreach (var item in grouoedTransactions)
+            else
             {
-                var record = processedTransactions.FirstOrDefault(m => m.RelatedTransaction.Owner.Name == item.Name && m.RelatedTransaction.DoneOn == item.FirstDate);
-                if (record.Fee > 0)
+                var merchantListInGivenMonth = monthlyFeePaid[stringifiedMonthAndYear];
+                if (!merchantListInGivenMonth.Contains(processedTransaction.RelatedTransaction.Owner.Name))
                 {
-                    record.Fee += monthlyFee;
+                    monthlyFeePaid[stringifiedMonthAndYear].Add(processedTransaction.RelatedTransaction.Owner.Name);
+                    monthlyFeeWasPaid = false;
                 }
             }
 
-            return processedTransactions;
+            if (!monthlyFeeWasPaid && processedTransaction.Fee > 0)
+            {
+                processedTransaction.Fee += monthlyFee;
+            }
+
+            return processedTransaction;
         }
     }
 }

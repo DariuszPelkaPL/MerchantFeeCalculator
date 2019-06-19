@@ -9,6 +9,6 @@ namespace DanskeBank.MerchantFeeCalculationEngine.FileReader
 {
     public interface ITransactionFileReader
     {
-        IList<Transaction> Read(StreamReader stream, IDictionary<string, Merchant> merchants, ITransactionParser transactionParser);
+        Transaction ReadSingleEntry(StreamReader stream, IDictionary<string, Merchant> merchants, ITransactionParser transactionParser);
     }
 }

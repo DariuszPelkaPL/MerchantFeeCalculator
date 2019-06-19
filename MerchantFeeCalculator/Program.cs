@@ -77,6 +77,7 @@ namespace Danskebank.MerchantFeeCalculator
                 {
                     string message = $"Error while processing fees: {exception.Message}";
                     logger.WriteError(message);
+                    Console.WriteLine("Error while processing input data");
                 }
             }
 
@@ -101,23 +102,24 @@ namespace Danskebank.MerchantFeeCalculator
                         var transactionReader =
                             (ITransactionFileReader)DependencyInjector.CreateInstance(typeof(ITransactionFileReader));
 
-                        var transactions = transactionReader.Read(file, merchants, transactionParser);
-                        var processedTransactions = calculator.CalculateMonthlyFees(transactions);
                         var monthNumber = 0;
+                        Transaction transaction;
 
-                        foreach (var transaction in processedTransactions)
+                        while ((transaction = transactionReader.ReadSingleEntry(file, merchants, transactionParser)) != null)
                         {
-                            if (monthNumber != 0 && monthNumber != transaction.RelatedTransaction.DoneOn.Month)
+                            var processedTransaction = calculator.CalculateFee(transaction);
+
+                            if (monthNumber != 0 && monthNumber != processedTransaction.RelatedTransaction.DoneOn.Month)
                             {
                                 Console.WriteLine("\n");
                             }
 
                             var stringifiedTransaction =
-                                processedTransactionWriter.ConvertTransactionToTextEntry(transaction);
+                                processedTransactionWriter.ConvertTransactionToTextEntry(processedTransaction);
                             Console.WriteLine(stringifiedTransaction);
-                            monthNumber = transaction.RelatedTransaction.DoneOn.Month;
+                            monthNumber = processedTransaction.RelatedTransaction.DoneOn.Month;
                         }
-
+                        Console.WriteLine("\n");
                         file.Close();
                     }
                     else
@@ -130,6 +132,7 @@ namespace Danskebank.MerchantFeeCalculator
             {
                 string message = $"Error while processing fees: {exception.Message}";
                 logger.WriteError(message);
+                Console.WriteLine("Error while processing input data");
             }
         }
     }

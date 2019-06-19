@@ -17,7 +17,7 @@ namespace DanskeBank.MerchantFeeCalculationEngineTests
         private readonly string sevenEleven = "7-ELEVEN";
 
         [Fact]
-        public void TransactionFileReader_ShouldReadTransactions_WhenCorrectDataProvided()
+        public void TransactionFileReader_ShouldReadTransaction_WhenCorrectDataProvided()
         {
             // Arrange
             var merchants = new Dictionary<string, Merchant>();
@@ -33,17 +33,12 @@ namespace DanskeBank.MerchantFeeCalculationEngineTests
             StreamReader reader = new StreamReader(memoryStream);
 
             // Act
-            var transactions = transactionReader.Read(reader, merchants, new TransactionParser());
+            var transaction = transactionReader.ReadSingleEntry(reader, merchants, new TransactionParser());
 
             // Assert
-            Assert.Equal(2, transactions.Count);
-            Assert.Equal(sevenEleven, transactions[0].Owner.Name);
-            Assert.Equal(new DateTime(2018, 9, 1), transactions[0].DoneOn);
-            Assert.Equal(100M, transactions[0].Amount);
-
-            Assert.Equal(circleK, transactions[1].Owner.Name);
-            Assert.Equal(new DateTime(2018, 9, 4), transactions[1].DoneOn);
-            Assert.Equal(200M, transactions[1].Amount);
+            Assert.Equal(sevenEleven, transaction.Owner.Name);
+            Assert.Equal(new DateTime(2018, 9, 1), transaction.DoneOn);
+            Assert.Equal(100M, transaction.Amount);
         }
 
         [Fact]
