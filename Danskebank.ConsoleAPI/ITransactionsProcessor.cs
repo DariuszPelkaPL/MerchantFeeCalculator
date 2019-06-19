@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Danskebank.MerchantFeeCalculationEngine.Model;
 
 namespace Danskebank.ConsoleAPI
 {
     public interface ITransactionsProcessor
     {
-        void ProcessTransactions();
+        void ReadTransactions(string transactionstFile, IDictionary<string, Merchant> merchants);
+
+        void InitializeProcessing();
     }
 }
