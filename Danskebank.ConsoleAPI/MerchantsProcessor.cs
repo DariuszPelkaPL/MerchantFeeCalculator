@@ -10,6 +10,18 @@ namespace Danskebank.ConsoleAPI
 {
     public class MerchantsProcessor : IMerchantsProcessor
     {
+        public IConsoleHelper ConsoleHelperProperty
+        {
+            get;
+            set;
+        }
+
+        public IFileHelper FileHelperProperty
+        {
+            get;
+            set;
+        }
+
         public IDictionary<string, Merchant> ReadMerchants(string merchantFile)
         {
             IDictionary<string, Merchant> merchants = new Dictionary<string, Merchant>();
@@ -18,21 +30,16 @@ namespace Danskebank.ConsoleAPI
             {
                 try
                 {
-                    var fileHelper =
-                        (IFileHelper)DependencyInjector.CreateInstance(typeof(IFileHelper));
-
-                    if (fileHelper.FileExists(merchantFile))
+                    if (FileHelperProperty.FileExists(merchantFile))
                     {
-                        var consoleHelper =
-                            (IConsoleHelper)DependencyInjector.CreateInstance(typeof(IConsoleHelper));
                         var merchantParser =
                             (IMerchantParser)DependencyInjector.CreateInstance(typeof(IMerchantParser));
                         var merchantReader =
                             (IMerchantReader)DependencyInjector.CreateInstance(typeof(IMerchantReader));
 
-                        var file = fileHelper.OpenFile(merchantFile);
+                        var file = FileHelperProperty.OpenFile(merchantFile);
                         merchants = merchantReader.Read(file, merchantParser);
-                        fileHelper.CloseFile(file);
+                        FileHelperProperty.CloseFile(file);
                     }
                     else
                     {

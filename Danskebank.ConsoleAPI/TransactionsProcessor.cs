@@ -9,20 +9,26 @@ namespace Danskebank.ConsoleAPI
 {
     public class TransactionsProcessor : ITransactionsProcessor
     {
+        public IConsoleHelper ConsoleHelperProperty
+        {
+            get;
+            set;
+        }
+
+        public IFileHelper FileHelperProperty
+        {
+            get;
+            set;
+        }
+
         public void ReadTransactions(string transactionstFile, IDictionary<string, Merchant> merchants)
         {
             try
             {
-                var fileHelper =
-                    (IFileHelper)DependencyInjector.CreateInstance(typeof(IFileHelper));
-
                 if (!string.IsNullOrEmpty(transactionstFile))
                 {
-                    if (fileHelper.FileExists(transactionstFile))
+                    if (FileHelperProperty.FileExists(transactionstFile))
                     {
-
-                        var consoleHelper =
-                            (IConsoleHelper)DependencyInjector.CreateInstance(typeof(IConsoleHelper));
                         var calculator = (IFeeCalculator)DependencyInjector.CreateInstance(typeof(IFeeCalculator));
                         var transactionParser =
                             (ITransactionParser)DependencyInjector.CreateInstance(typeof(ITransactionParser));
@@ -32,7 +38,7 @@ namespace Danskebank.ConsoleAPI
                         var transactionReader =
                             (ITransactionFileReader)DependencyInjector.CreateInstance(typeof(ITransactionFileReader));
 
-                        var file = fileHelper.OpenFile(transactionstFile);
+                        var file = FileHelperProperty.OpenFile(transactionstFile);
                         var monthNumber = 0;
                         Transaction transaction;
                         calculator.InitializeFeeCalculation();
@@ -43,16 +49,16 @@ namespace Danskebank.ConsoleAPI
 
                             if (monthNumber != 0 && monthNumber != processedTransaction.RelatedTransaction.DoneOn.Month)
                             {
-                                consoleHelper.WriteLine("\n");
+                                ConsoleHelperProperty.WriteLine("\n");
                             }
 
                             var stringifiedTransaction =
                                 processedTransactionWriter.ConvertTransactionToTextEntry(processedTransaction);
-                            consoleHelper.WriteLine(stringifiedTransaction);
+                            ConsoleHelperProperty.WriteLine(stringifiedTransaction);
                             monthNumber = processedTransaction.RelatedTransaction.DoneOn.Month;
                         }
-                        consoleHelper.WriteLine("\n");
-                        fileHelper.CloseFile(file);
+                        ConsoleHelperProperty.WriteLine("\n");
+                        FileHelperProperty.CloseFile(file);
                     }
                     else
                     {
@@ -76,8 +82,6 @@ namespace Danskebank.ConsoleAPI
             DependencyInjector.Assign(typeof(IProcessedTransactionWriter), typeof(ProcessedTransactionWriter));
             DependencyInjector.Assign(typeof(IMerchantReader), typeof(MerchantReader));
             DependencyInjector.Assign(typeof(ITransactionFileReader), typeof(TransactionFileReader));
-            DependencyInjector.Assign(typeof(IFileHelper), typeof(FileHelper));
-            DependencyInjector.Assign(typeof(IConsoleHelper), typeof(ConsoleHelper));
         }
     }
 }
