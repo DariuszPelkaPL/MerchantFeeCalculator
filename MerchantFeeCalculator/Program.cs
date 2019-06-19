@@ -30,8 +30,8 @@ namespace Danskebank.MerchantFeeCalculator
 
             if (args == null || args.Length == 0)
             {
-                merchantFile = "SampleMerchants.txt";
-                transactionstFile = "SampleTestTransactions.txt";
+                merchantFile = "merchants.txt";
+                transactionstFile = "transactions.txt";
             }
             else if (args.Length == 2)
             {
