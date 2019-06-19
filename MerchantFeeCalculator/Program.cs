@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using DankseBank.Common;
+using Danskebank.Common;
+using Danskebank.ConsoleAPI;
+using Danskebank.MerchantFeeCalculationEngine.FileReader;
 using Danskebank.MerchantFeeCalculationEngine.Model;
 using Danskebank.MerchantFeeCalculationEngine.Processor;
 
 namespace Danskebank.MerchantFeeCalculator
 {
-    using DanskeBank.Common;
-    using DanskeBank.MerchantFeeCalculationEngine.FileReader;
-
     public class Program
     {
         private static ILogger logger = null;
@@ -26,6 +25,7 @@ namespace Danskebank.MerchantFeeCalculator
             DependencyInjector.Assign(typeof(IMerchantReader), typeof(MerchantReader));
             DependencyInjector.Assign(typeof(ITransactionFileReader), typeof(TransactionFileReader));
             DependencyInjector.Assign(typeof(ILogger), typeof(Logger));
+            DependencyInjector.Assign(typeof(IMerchantsProcessor), typeof(MerchantsProcessor));
             logger = (ILogger)DependencyInjector.CreateInstance(typeof(ILogger));
 
             if (args == null || args.Length == 0)
@@ -43,7 +43,8 @@ namespace Danskebank.MerchantFeeCalculator
                 throw new ArgumentException("Wrong parameters");
             }
 
-            merchants = ReadMerchants(merchantFile);
+            var merchantProcessor = (IMerchantsProcessor)DependencyInjector.CreateInstance(typeof(IMerchantsProcessor));
+            merchants = merchantProcessor.ReadMerchants(merchantFile);
             ReadTransactions(transactionstFile, merchants);
 
             Console.ReadLine();

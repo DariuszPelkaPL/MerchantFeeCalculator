@@ -3,7 +3,7 @@ using System.IO;
 using Danskebank.MerchantFeeCalculationEngine.Model;
 using Danskebank.MerchantFeeCalculationEngine.Processor;
 
-namespace DanskeBank.MerchantFeeCalculationEngine.FileReader
+namespace Danskebank.MerchantFeeCalculationEngine.FileReader
 {
     public interface IMerchantReader
     {

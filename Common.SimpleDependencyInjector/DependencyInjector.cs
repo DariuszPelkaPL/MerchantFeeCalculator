@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DankseBank.Common
+namespace Danskebank.Common
 {
     public class DependencyInjector
     {

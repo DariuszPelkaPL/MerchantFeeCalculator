@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Danskebank.MerchantFeeCalculationEngine.Model
 {
     public class Transaction

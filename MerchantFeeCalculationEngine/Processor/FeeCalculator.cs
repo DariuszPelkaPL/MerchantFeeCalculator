@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DankseBank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculationEngine.Model;
 using Danskebank.MerchantFeeCalculationEngine.Model;
 
 namespace Danskebank.MerchantFeeCalculationEngine.Processor

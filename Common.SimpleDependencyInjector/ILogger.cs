@@ -1,4 +1,4 @@
-﻿namespace DanskeBank.Common
+﻿namespace Danskebank.Common
 {
     public interface ILogger
     {

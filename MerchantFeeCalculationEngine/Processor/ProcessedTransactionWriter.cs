@@ -1,4 +1,4 @@
-﻿using DankseBank.MerchantFeeCalculationEngine.Model;
+﻿using Danskebank.MerchantFeeCalculationEngine.Model;
 
 namespace Danskebank.MerchantFeeCalculationEngine.Processor
 {

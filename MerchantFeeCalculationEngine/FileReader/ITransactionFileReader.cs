@@ -1,11 +1,9 @@
-﻿using Danskebank.MerchantFeeCalculationEngine.Model;
-using Danskebank.MerchantFeeCalculationEngine.Processor;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using Danskebank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculationEngine.Processor;
 
-namespace DanskeBank.MerchantFeeCalculationEngine.FileReader
+namespace Danskebank.MerchantFeeCalculationEngine.FileReader
 {
     public interface ITransactionFileReader
     {

@@ -1,6 +1,4 @@
-﻿using Danskebank.MerchantFeeCalculationEngine.Model;
-
-namespace DankseBank.MerchantFeeCalculationEngine.Model
+﻿namespace Danskebank.MerchantFeeCalculationEngine.Model
 {
     public class ProcessedTransaction 
     {
