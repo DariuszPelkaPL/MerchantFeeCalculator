@@ -104,6 +104,7 @@ namespace Danskebank.MerchantFeeCalculator
 
                         var monthNumber = 0;
                         Transaction transaction;
+                        calculator.InitializeFeeCalculation();
 
                         while ((transaction = transactionReader.ReadSingleEntry(file, merchants, transactionParser)) != null)
                         {

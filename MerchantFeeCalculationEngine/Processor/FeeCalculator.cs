@@ -11,6 +11,11 @@ namespace Danskebank.MerchantFeeCalculationEngine.Processor
         private static IDictionary<string, IList<string>> monthlyFeePaid = new Dictionary<string, IList<string>>();
         private decimal monthlyFee = 29;
 
+        public void InitializeFeeCalculation()
+        {
+            monthlyFeePaid = new Dictionary<string, IList<string>>();
+        }
+
         public ProcessedTransaction CalculateFee(Transaction transaction)
         {
             bool monthlyFeeWasPaid = true;
