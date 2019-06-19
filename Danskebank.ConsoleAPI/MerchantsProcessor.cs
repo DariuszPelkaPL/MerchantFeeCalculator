@@ -18,16 +18,21 @@ namespace Danskebank.ConsoleAPI
             {
                 try
                 {
-                    if (File.Exists(merchantFile))
+                    var fileHelper =
+                        (IFileHelper)DependencyInjector.CreateInstance(typeof(IFileHelper));
+
+                    if (fileHelper.FileExists(merchantFile))
                     {
+                        var consoleHelper =
+                            (IConsoleHelper)DependencyInjector.CreateInstance(typeof(IConsoleHelper));
                         var merchantParser =
                             (IMerchantParser)DependencyInjector.CreateInstance(typeof(IMerchantParser));
                         var merchantReader =
                             (IMerchantReader)DependencyInjector.CreateInstance(typeof(IMerchantReader));
 
-                        StreamReader file = new StreamReader(merchantFile);
+                        var file = fileHelper.OpenFile(merchantFile);
                         merchants = merchantReader.Read(file, merchantParser);
-                        file.Close();
+                        fileHelper.CloseFile(file);
                     }
                     else
                     {

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>DanskeBank.Common</RootNamespace>
+    <RootNamespace>Danskebank.Common</RootNamespace>
     <AssemblyName>DanskeBank.Common</AssemblyName>
   </PropertyGroup>
 
