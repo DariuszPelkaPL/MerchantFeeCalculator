@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.SimpleDependencyInje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Danskebank.ConsoleAPI", "Danskebank.ConsoleAPI\Danskebank.ConsoleAPI.csproj", "{7CB00D75-87EF-444B-AE18-4ED9B92FC323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAPITestProject1", "ConsoleAPITestProject1\ConsoleAPITestProject1.csproj", "{B4011CDB-97DC-49CA-AEA5-3A4683D28BDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAPITestProject", "ConsoleAPITestProject1\ConsoleAPITestProject.csproj", "{B4011CDB-97DC-49CA-AEA5-3A4683D28BDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

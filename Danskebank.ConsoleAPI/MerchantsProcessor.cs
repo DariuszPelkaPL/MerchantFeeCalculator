@@ -43,7 +43,7 @@ namespace Danskebank.ConsoleAPI
                     }
                     else
                     {
-                        throw new ArgumentException("Merchant file does not exist");
+                        ConsoleHelperProperty.WriteLine("No merchant file");
                     }
                 }
                 catch (Exception exception)

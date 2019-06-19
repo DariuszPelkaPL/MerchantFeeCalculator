@@ -62,6 +62,7 @@ namespace Danskebank.ConsoleAPI
                     }
                     else
                     {
+                        ConsoleHelperProperty.WriteLine("No transaction file");
                         throw new ArgumentException("Transaction file does not exist");
                     }
                 }
