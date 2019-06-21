@@ -1,9 +1,7 @@
-﻿using Danskebank.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
+using Danskebank.Common;
 
-namespace Danskebank.ConsoleAPITestProject1
+namespace Danskebank.MerchantFeeCalculation.ConsoleAPITestProject
 {
     public class FakeConsoleHelper : IConsoleHelper
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Danskebank.Common;
-using Danskebank.ConsoleAPI;
-using Danskebank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculation.ConsoleAPI;
+using Danskebank.MerchantFeeCalculation.Engine.Model;
 
-namespace Danskebank.MerchantFeeCalculator
+namespace Danskebank.MerchantFeeCalculation.ConsoleApp
 {
     public class Program
     {

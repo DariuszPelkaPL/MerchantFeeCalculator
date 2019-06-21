@@ -1,9 +1,9 @@
 ﻿using System;
-using Danskebank.MerchantFeeCalculationEngine.Model;
-using Danskebank.MerchantFeeCalculationEngine.Processor;
+using Danskebank.MerchantFeeCalculation.Engine.Model;
+using Danskebank.MerchantFeeCalculation.Engine.Processor;
 using Xunit;
 
-namespace Danskebank.MerchantFeeCalculationEngineTests
+namespace Danskebank.MerchantFeeCalculation.EngineTests
 {
     public class ParserWriterTests
     {

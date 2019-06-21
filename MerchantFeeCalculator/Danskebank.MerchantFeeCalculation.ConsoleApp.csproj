@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common.SimpleDependencyInjector\Common.SimpleDependencyInjector.csproj" />
-    <ProjectReference Include="..\Danskebank.ConsoleAPI\Danskebank.ConsoleAPI.csproj" />
+    <ProjectReference Include="..\Common.SimpleDependencyInjector\Danskebank.Common.csproj" />
+    <ProjectReference Include="..\Danskebank.ConsoleAPI\Danskebank.MerchantFeeCalculation.ConsoleAPI.csproj" />
   </ItemGroup>
 
 </Project>

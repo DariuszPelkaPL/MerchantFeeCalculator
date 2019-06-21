@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>ConsoleAPITestProject</AssemblyName>
+    <AssemblyName>DanskeBank.MerchantFeeCalculationEngineTestProject</AssemblyName>
 
-    <RootNamespace>Danskebank.ConsoleAPITestProject1</RootNamespace>
+    <RootNamespace>DanskeBank.MerchantFeeCalculationEngineTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Danskebank.ConsoleAPI\Danskebank.ConsoleAPI.csproj" />
+    <ProjectReference Include="..\MerchantFeeCalculationEngine\Danskebank.MerchantFeeCalculation.Engine.csproj" />
   </ItemGroup>
 
 </Project>

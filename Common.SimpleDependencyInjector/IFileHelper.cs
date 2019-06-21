@@ -1,7 +1,7 @@
-﻿namespace Danskebank.Common
-{
-    using System.IO;
+﻿using System.IO;
 
+namespace Danskebank.Common
+{
     public interface IFileHelper
     {
         StreamReader OpenFile(string filePath);

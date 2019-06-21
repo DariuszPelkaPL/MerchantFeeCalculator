@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Danskebank.Common;
-using Danskebank.MerchantFeeCalculationEngine.Model;
+using Danskebank.MerchantFeeCalculation.Engine.Model;
 
-namespace Danskebank.ConsoleAPI
+namespace Danskebank.MerchantFeeCalculation.ConsoleAPI
 {
     public interface ITransactionsProcessor
     {

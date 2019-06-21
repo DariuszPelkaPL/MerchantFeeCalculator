@@ -1,10 +1,8 @@
-using Danskebank.ConsoleAPI;
-using System;
+using Danskebank.MerchantFeeCalculation.ConsoleAPI;
 using Xunit;
 
-namespace ConsoleAPITestProject1
+namespace Danskebank.MerchantFeeCalculation.ConsoleAPITestProject
 {
-    using Danskebank.ConsoleAPITestProject1;
 
     public class TransactionProcessingUnitTest
     {

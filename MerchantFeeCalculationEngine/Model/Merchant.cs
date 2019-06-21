@@ -1,4 +1,4 @@
-﻿namespace Danskebank.MerchantFeeCalculationEngine.Model
+﻿namespace Danskebank.MerchantFeeCalculation.Engine.Model
 {
     public class Merchant
     {

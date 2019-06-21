@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Danskebank.Common;
 
-namespace Danskebank.ConsoleAPITestProject1
+namespace Danskebank.MerchantFeeCalculation.ConsoleAPITestProject
 {
     public class FakeFileMerchantHelper : IFileHelper
     {

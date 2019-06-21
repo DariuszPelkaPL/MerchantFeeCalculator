@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantFeeCalculator", "MerchantFeeCalculator\MerchantFeeCalculator.csproj", "{4F0D6DA0-500B-4C8A-937B-352B43E44473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Danskebank.MerchantFeeCalculation.ConsoleApp", "MerchantFeeCalculator\Danskebank.MerchantFeeCalculation.ConsoleApp.csproj", "{4F0D6DA0-500B-4C8A-937B-352B43E44473}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantFeeCalculationEngine", "MerchantFeeCalculationEngine\MerchantFeeCalculationEngine.csproj", "{9D219E81-9510-4B14-AD08-922922CE9330}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Danskebank.MerchantFeeCalculation.Engine", "MerchantFeeCalculationEngine\Danskebank.MerchantFeeCalculation.Engine.csproj", "{9D219E81-9510-4B14-AD08-922922CE9330}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MerchantFeeCalculationEngineTestProject", "XUnitTestForMerchantFeeCalculationEngineProject\MerchantFeeCalculationEngineTestProject.csproj", "{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Danskebank.MerchantFeeCalculation.EngineTestProject", "XUnitTestForMerchantFeeCalculationEngineProject\Danskebank.MerchantFeeCalculation.EngineTestProject.csproj", "{C246AAA2-41E1-48E9-ADF5-E04FE3A670AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.SimpleDependencyInjector", "Common.SimpleDependencyInjector\Common.SimpleDependencyInjector.csproj", "{20B0882D-8766-48F2-8D20-14033E8145C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Danskebank.Common", "Common.SimpleDependencyInjector\Danskebank.Common.csproj", "{20B0882D-8766-48F2-8D20-14033E8145C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Danskebank.ConsoleAPI", "Danskebank.ConsoleAPI\Danskebank.ConsoleAPI.csproj", "{7CB00D75-87EF-444B-AE18-4ED9B92FC323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Danskebank.MerchantFeeCalculation.ConsoleAPI", "Danskebank.ConsoleAPI\Danskebank.MerchantFeeCalculation.ConsoleAPI.csproj", "{7CB00D75-87EF-444B-AE18-4ED9B92FC323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAPITestProject", "ConsoleAPITestProject1\ConsoleAPITestProject.csproj", "{B4011CDB-97DC-49CA-AEA5-3A4683D28BDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Danskebank.MerchantFeeCalculation.ConsoleAPITestProject", "ConsoleAPITestProject1\Danskebank.MerchantFeeCalculation.ConsoleAPITestProject.csproj", "{B4011CDB-97DC-49CA-AEA5-3A4683D28BDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

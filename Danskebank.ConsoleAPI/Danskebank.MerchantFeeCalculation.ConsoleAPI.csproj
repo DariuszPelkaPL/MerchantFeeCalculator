@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Danskebank.MerchantFeeCalculation.ConsoleAPI</AssemblyName>
+    <RootNamespace>Danskebank.MerchantFeeCalculation.ConsoleAPI</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common.SimpleDependencyInjector\Danskebank.Common.csproj" />
+    <ProjectReference Include="..\MerchantFeeCalculationEngine\Danskebank.MerchantFeeCalculation.Engine.csproj" />
+  </ItemGroup>
+
+</Project>

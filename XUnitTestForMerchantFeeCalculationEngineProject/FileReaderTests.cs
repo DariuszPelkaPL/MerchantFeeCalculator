@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Danskebank.MerchantFeeCalculationEngine.FileReader;
-using Danskebank.MerchantFeeCalculationEngine.Model;
-using Danskebank.MerchantFeeCalculationEngine.Processor;
+using Danskebank.MerchantFeeCalculation.Engine.FileReader;
+using Danskebank.MerchantFeeCalculation.Engine.Model;
+using Danskebank.MerchantFeeCalculation.Engine.Processor;
 using Xunit;
 
-namespace DanskeBank.MerchantFeeCalculationEngineTests
+namespace Danskebank.MerchantFeeCalculation.EngineTests
 {
     using System;
 
