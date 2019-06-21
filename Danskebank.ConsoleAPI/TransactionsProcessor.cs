@@ -57,7 +57,6 @@ namespace Danskebank.ConsoleAPI
                             ConsoleHelperProperty.WriteLine(stringifiedTransaction);
                             monthNumber = processedTransaction.RelatedTransaction.DoneOn.Month;
                         }
-                        ConsoleHelperProperty.WriteLine("\n");
                         FileHelperProperty.CloseFile(file);
                     }
                     else

@@ -9,6 +9,11 @@ namespace Danskebank.ConsoleAPITestProject1
     {
         private static StringBuilder console = new StringBuilder();
 
+        public FakeConsoleHelper()
+        {
+            console = new StringBuilder();
+        }
+
         public void WriteLine(string message)
         {
             console.Append(message);

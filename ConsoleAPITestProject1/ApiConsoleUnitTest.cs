@@ -28,7 +28,7 @@ namespace ConsoleAPITestProject1
 
             // Assert
             var output = consoleHelper.ConsoleOutput.ToString();
-            Assert.Equal("2018-09-01 7-ELEVEN 30.00\n2018-09-04 CIRCLE_K 30.60\n\n\n", output);
+            Assert.Equal("2018-09-01 7-ELEVEN 30.00\n2018-09-04 CIRCLE_K 30.60\n", output);
         }
 
         [Fact]

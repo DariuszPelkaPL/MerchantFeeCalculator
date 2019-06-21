@@ -10,7 +10,10 @@ namespace Danskebank.Common
 
         public static void Assign(Type interfaceType, Type implementationClass)
         {
-            assignments.Add(interfaceType, implementationClass);
+            if(!assignments.ContainsKey(interfaceType))
+            { 
+                assignments.Add(interfaceType, implementationClass);
+            }
         }
 
         /// <summary>
