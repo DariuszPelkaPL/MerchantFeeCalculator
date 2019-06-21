@@ -41,8 +41,69 @@ namespace DanskeBank.MerchantFeeCalculationEngineTests
             Assert.Equal(100M, transaction.Amount);
         }
 
+        [Theory]
+        [InlineData("201A-14-01 7-ELEVEN 100")]
+        [InlineData("201A-09-1 7-ELEVEN 100")]
+        [InlineData("201A-09-01 7-ELEVENWWW 100")]
+        [InlineData("201A-09-01 7-ELEVEN 1A0")]
+        [InlineData("201A-09-01 7-ELEVEN   100")]
+        [InlineData("XXXX-09-01 7-ELEVEN   100")]
+        public void TransactionFileReader_ShouldReadTransaction_WhenIncorrectDataProvided(string entry)
+        {
+            // Arrange
+            var merchants = new Dictionary<string, Merchant>();
+            merchants.Add("7-ELEVEN", new Merchant() { DiscountPercentage = 0, Name = sevenEleven, FeeAsPercentage = 1 });
+            var exceptionTrhown = false;
+            var transactionReader = new TransactionFileReader();
+
+            // Incorrect date format
+            var memoryStream = GenerateStreamFromString(entry);
+            StreamReader reader = new StreamReader(memoryStream);
+
+            // Act
+            try
+            {
+                var transaction = transactionReader.ReadSingleEntry(reader, merchants, new TransactionParser());
+            }
+            catch (Exception exception)
+            {
+                exceptionTrhown = true;
+                Assert.Equal("Improper format of transaction date", exception.Message);
+            }
+
+            // Assert
+            Assert.True(exceptionTrhown);
+        }
+
+        [Theory]
+        [InlineData("7-ELEVEN A 0")]
+        [InlineData("7-ELEVENAAA 1 0")]
+        [InlineData("7-ELEVEN  1 0")]
+        public void MerchantFileReader_ShouldGenerateError_WhenIncorrectDataProvided(string entry)
+        {
+            // Arrange
+            var merchantReader = new MerchantReader();
+            var memoryStream = GenerateStreamFromString(entry);
+            StreamReader reader = new StreamReader(memoryStream);
+            var exceptionTrhown = false;
+
+            // Act
+            try
+            {
+                var merrhants = merchantReader.Read(reader, new MerchantParser());
+            }
+            catch (Exception exception)
+            {
+                exceptionTrhown = true;
+                Assert.Equal("Improper format of merchant data", exception.Message);
+            }
+
+            // Assert
+            Assert.True(exceptionTrhown);
+        }
+
         [Fact]
-        public void MerchantFileReader_ShouldReadmerchants_WhenCorrectDataProvided()
+        public void MerchantFileReader_ShouldReadMerchants_WhenCorrectDataProvided()
         {
             // Arrange
             var merchantReader = new MerchantReader();
