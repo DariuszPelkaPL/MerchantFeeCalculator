@@ -80,7 +80,7 @@ namespace Danskebank.ConsoleAPI
             {
                 string message = $"Error while processing fees: {exception.Message}";
                 logger.WriteError(message);
-                Console.WriteLine("Error while processing input data");
+                ConsoleHelperProperty.WriteLine("Error while processing tramsaction data");
             }
         }
     }

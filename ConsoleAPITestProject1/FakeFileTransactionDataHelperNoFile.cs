@@ -3,7 +3,7 @@ using Danskebank.Common;
 
 namespace Danskebank.ConsoleAPITestProject1
 {
-    public class FakeFileTransactionWithIncorrectData : IFileHelper
+    public class FakeFileTransactionDataHelperNoFile : IFileHelper
     {
         public void CloseFile(StreamReader reader)
         {
@@ -11,14 +11,13 @@ namespace Danskebank.ConsoleAPITestProject1
 
         public bool FileExists(string filePath)
         {
-            return true;
+            return false;
         }
 
         public StreamReader OpenFile(string filePath)
         {
-            // Incorrect data
-            var text = @"201998-09-01 7-ELEVEN 100
-2018-09-0114 CIRCLE_K 200";
+            var text = @"2018-09-01 7-ELEVEN 100
+2018-09-04 CIRCLE_K 200";
             var memoryStream = GenerateStreamFromString(text);
             StreamReader reader = new StreamReader(memoryStream);
             return reader;

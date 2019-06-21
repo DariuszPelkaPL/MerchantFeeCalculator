@@ -31,6 +31,28 @@ namespace ConsoleAPITestProject1
         }
 
         [Fact]
+        public void APIProcessing_ShouldProduceErrorMessage_WhenNoFileProvided()
+        {
+            // Arrange
+            var transactionProcessor = new TransactionsProcessor();
+            var fakeFileHelper = new FakeFileTransactionDataHelperNoFile();
+            var consoleHelper = new FakeConsoleHelper();
+            transactionProcessor.ConsoleHelperProperty = consoleHelper;
+            transactionProcessor.FileHelperProperty = fakeFileHelper;
+            var merchantProcessor = new MerchantsProcessor();
+            merchantProcessor.ConsoleHelperProperty = new FakeConsoleHelper();
+            merchantProcessor.FileHelperProperty = new FakeFileMerchantHelper();
+            var merchants = merchantProcessor.ReadMerchants("someFile");
+
+            // Act
+            transactionProcessor.ReadTransactions("someFile", merchants);
+
+            // Assert
+            var output = consoleHelper.ConsoleOutput.ToString();
+            Assert.Equal("No transaction file\n", output);
+        }
+
+        [Fact]
         public void APIProcessing_ShouldProduceErrorMessage_WhenIncorrectDataProvided()
         {
             // Arrange
@@ -49,9 +71,8 @@ namespace ConsoleAPITestProject1
 
             // Assert
             var output = consoleHelper.ConsoleOutput.ToString();
-            Assert.Equal("No transaction file\n", output);
+            Assert.Equal("Error while processing tramsaction data\n", output);
         }
-
         // Here more unit tests! covering other scenarios ...
     }
 }
