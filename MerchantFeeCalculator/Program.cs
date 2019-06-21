@@ -12,40 +12,36 @@ namespace Danskebank.MerchantFeeCalculator
 
         public static void Main(string[] args)
         {
-            var merchantFile = string.Empty;
-            var transactionstFile = string.Empty;
-            IDictionary<string, Merchant> merchants = new Dictionary<string, Merchant>();
-            DependencyInjector.Assign(typeof(ILogger), typeof(Logger));
-            DependencyInjector.Assign(typeof(IMerchantsProcessor), typeof(MerchantsProcessor));
-            DependencyInjector.Assign(typeof(ITransactionsProcessor), typeof(TransactionsProcessor));
-            logger = (ILogger)DependencyInjector.CreateInstance(typeof(ILogger));
-
-            if (args == null || args.Length == 0)
+            try
             {
-                merchantFile = "merchants.txt";
-                transactionstFile = "transactions.txt";
-            }
-            else if (args.Length == 2)
-            {
-                merchantFile = args[0];
-                transactionstFile = args[1];
-            }
-            else
-            {
-                throw new ArgumentException("Wrong parameters");
-            }
+                IDictionary<string, Merchant> merchants = new Dictionary<string, Merchant>();
+                DependencyInjector.Assign(typeof(ILogger), typeof(Logger));
+                DependencyInjector.Assign(typeof(IMerchantsProcessor), typeof(MerchantsProcessor));
+                DependencyInjector.Assign(typeof(ITransactionsProcessor), typeof(TransactionsProcessor));
+                DependencyInjector.Assign(typeof(IConsoleHelper), typeof(ConsoleHelper));
+                DependencyInjector.Assign(typeof(IFileHelper), typeof(FileHelper));
 
-            var transactionsProcessor = (ITransactionsProcessor)DependencyInjector.CreateInstance(typeof(ITransactionsProcessor));
-            transactionsProcessor.FileHelperProperty = new FileHelper();
-            transactionsProcessor.ConsoleHelperProperty = new ConsoleHelper();
-            transactionsProcessor.InitializeProcessing();
-            var merchantProcessor = (IMerchantsProcessor)DependencyInjector.CreateInstance(typeof(IMerchantsProcessor));
-            merchantProcessor.FileHelperProperty = new FileHelper();
-            merchantProcessor.ConsoleHelperProperty = new ConsoleHelper();
-            merchants = merchantProcessor.ReadMerchants(merchantFile);
-            transactionsProcessor.ReadTransactions(transactionstFile, merchants);
+                logger = (ILogger)DependencyInjector.CreateInstance(typeof(ILogger));
+                var merchantFile = "merchants.txt";
+                var transactionstFile = "transactions.txt";
 
-            Console.ReadLine();
+                var transactionsProcessor = (ITransactionsProcessor)DependencyInjector.CreateInstance(typeof(ITransactionsProcessor));
+                transactionsProcessor.FileHelperProperty = (IFileHelper)DependencyInjector.CreateInstance(typeof(IFileHelper));
+                transactionsProcessor.ConsoleHelperProperty = (IConsoleHelper)DependencyInjector.CreateInstance(typeof(IConsoleHelper));
+                transactionsProcessor.InitializeProcessing();
+                var merchantProcessor = (IMerchantsProcessor)DependencyInjector.CreateInstance(typeof(IMerchantsProcessor));
+                merchantProcessor.FileHelperProperty = (IFileHelper)DependencyInjector.CreateInstance(typeof(IFileHelper));
+                merchantProcessor.ConsoleHelperProperty = (IConsoleHelper)DependencyInjector.CreateInstance(typeof(IConsoleHelper));
+                merchants = merchantProcessor.ReadMerchants(merchantFile);
+                transactionsProcessor.ReadTransactions(transactionstFile, merchants);
+                Console.ReadLine();
+            }
+            catch (Exception exc)
+            {
+                var logger = (ILogger)DependencyInjector.CreateInstance(typeof(ILogger));
+                logger.WriteError(exc.ToString());
+                Console.WriteLine("Error while processing fees");
+            }
         }
     }
 }

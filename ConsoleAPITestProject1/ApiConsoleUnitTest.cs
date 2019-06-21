@@ -53,5 +53,7 @@ namespace ConsoleAPITestProject1
             var output = consoleHelper.ConsoleOutput.ToString();
             Assert.Equal("No transaction file\n", output);
         }
+
+        // Here more unit tests! covering other scenarios ...
     }
 }
