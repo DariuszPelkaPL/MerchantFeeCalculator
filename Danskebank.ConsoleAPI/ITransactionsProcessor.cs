@@ -19,7 +19,5 @@ namespace Danskebank.ConsoleAPI
         }
 
         void ReadTransactions(string transactionstFile, IDictionary<string, Merchant> merchants);
-
-        void InitializeProcessing();
     }
 }

@@ -28,7 +28,6 @@ namespace Danskebank.MerchantFeeCalculator
                 var transactionsProcessor = (ITransactionsProcessor)DependencyInjector.CreateInstance(typeof(ITransactionsProcessor));
                 transactionsProcessor.FileHelperProperty = (IFileHelper)DependencyInjector.CreateInstance(typeof(IFileHelper));
                 transactionsProcessor.ConsoleHelperProperty = (IConsoleHelper)DependencyInjector.CreateInstance(typeof(IConsoleHelper));
-                transactionsProcessor.InitializeProcessing();
                 var merchantProcessor = (IMerchantsProcessor)DependencyInjector.CreateInstance(typeof(IMerchantsProcessor));
                 merchantProcessor.FileHelperProperty = (IFileHelper)DependencyInjector.CreateInstance(typeof(IFileHelper));
                 merchantProcessor.ConsoleHelperProperty = (IConsoleHelper)DependencyInjector.CreateInstance(typeof(IConsoleHelper));

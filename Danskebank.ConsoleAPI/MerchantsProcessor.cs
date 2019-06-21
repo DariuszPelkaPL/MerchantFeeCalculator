@@ -24,6 +24,15 @@ namespace Danskebank.ConsoleAPI
 
         public IDictionary<string, Merchant> ReadMerchants(string merchantFile)
         {
+            DependencyInjector.Assign(typeof(ITransactionParser), typeof(TransactionParser));
+            DependencyInjector.Assign(typeof(IMerchantParser), typeof(MerchantParser));
+            DependencyInjector.Assign(typeof(IFeeCalculator), typeof(FeeCalculator));
+            DependencyInjector.Assign(typeof(IProcessedTransactionWriter), typeof(ProcessedTransactionWriter));
+            DependencyInjector.Assign(typeof(IMerchantReader), typeof(MerchantReader));
+            DependencyInjector.Assign(typeof(ITransactionFileReader), typeof(TransactionFileReader));
+            DependencyInjector.Assign(typeof(ILogger), typeof(Logger));
+
+            var logger = (ILogger)DependencyInjector.CreateInstance(typeof(ILogger));
             IDictionary<string, Merchant> merchants = new Dictionary<string, Merchant>();
 
             if (!string.IsNullOrEmpty(merchantFile))
@@ -49,7 +58,7 @@ namespace Danskebank.ConsoleAPI
                 catch (Exception exception)
                 {
                     string message = $"Error while processing fees: {exception.Message}";
-                   // logger.WriteError(message);
+                    logger.WriteError(message);
                     Console.WriteLine("Error while processing input data");
                 }
             }

@@ -17,7 +17,6 @@ namespace ConsoleAPITestProject1
             var consoleHelper = new FakeConsoleHelper();
             transactionProcessor.ConsoleHelperProperty = consoleHelper;
             transactionProcessor.FileHelperProperty = fakeFileHelper;
-            transactionProcessor.InitializeProcessing();
             var merchantProcessor = new MerchantsProcessor();
             merchantProcessor.ConsoleHelperProperty = new FakeConsoleHelper();
             merchantProcessor.FileHelperProperty = new FakeFileMerchantHelper();
@@ -40,7 +39,6 @@ namespace ConsoleAPITestProject1
             var consoleHelper = new FakeConsoleHelper();
             transactionProcessor.ConsoleHelperProperty = consoleHelper;
             transactionProcessor.FileHelperProperty = fakeFileHelper;
-            transactionProcessor.InitializeProcessing();
             var merchantProcessor = new MerchantsProcessor();
             merchantProcessor.ConsoleHelperProperty = new FakeConsoleHelper();
             merchantProcessor.FileHelperProperty = new FakeFileMerchantHelper();
