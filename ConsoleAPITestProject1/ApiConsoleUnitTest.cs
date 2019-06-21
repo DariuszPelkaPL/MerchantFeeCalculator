@@ -31,7 +31,7 @@ namespace ConsoleAPITestProject1
         }
 
         [Fact]
-        public void APIProcessing_ShouldProduceErrorMessage_WhenNoFileProvided()
+        public void APIProcessing_ShouldProduceErrorMessage_WhenNoTransactionFileProvided()
         {
             // Arrange
             var transactionProcessor = new TransactionsProcessor();
@@ -49,11 +49,11 @@ namespace ConsoleAPITestProject1
 
             // Assert
             var output = consoleHelper.ConsoleOutput.ToString();
-            Assert.Equal("No transaction file\n", output);
+            Assert.Equal("No transaction file\nError while processing tramsaction data\n", output);
         }
 
         [Fact]
-        public void APIProcessing_ShouldProduceErrorMessage_WhenIncorrectDataProvided()
+        public void APIProcessing_ShouldProduceErrorMessage_WhenIncorrectTransactionDataProvided()
         {
             // Arrange
             var transactionProcessor = new TransactionsProcessor();
@@ -73,6 +73,51 @@ namespace ConsoleAPITestProject1
             var output = consoleHelper.ConsoleOutput.ToString();
             Assert.Equal("Error while processing tramsaction data\n", output);
         }
+
+        [Fact]
+        public void APIProcessing_ShouldProduceErrorMessage_WhenNoMerchantFileProvided()
+        {
+            // Arrange
+            var transactionProcessor = new TransactionsProcessor();
+            var fakeFileHelper = new FakeFileTransactionHelper();
+            var consoleHelper = new FakeConsoleHelper();
+            transactionProcessor.ConsoleHelperProperty = consoleHelper;
+            transactionProcessor.FileHelperProperty = fakeFileHelper;
+            var merchantProcessor = new MerchantsProcessor();
+            merchantProcessor.ConsoleHelperProperty = new FakeConsoleHelper();
+            merchantProcessor.FileHelperProperty = new FakeFileMerchantDataHelperNoFile();
+            var merchants = merchantProcessor.ReadMerchants("someFile");
+
+            // Act
+            transactionProcessor.ReadTransactions("someFile", merchants);
+
+            // Assert
+            var output = consoleHelper.ConsoleOutput.ToString();
+            Assert.Equal("No merchant file\nError while processing tramsaction data\n", output);
+        }
+
+        [Fact]
+        public void APIProcessing_ShouldProduceErrorMessage_WhenIncorrectMerchantDataProvided()
+        {
+            // Arrange
+            var transactionProcessor = new TransactionsProcessor();
+            var fakeFileHelper = new FakeFileTransactionHelper();
+            var consoleHelper = new FakeConsoleHelper();
+            transactionProcessor.ConsoleHelperProperty = consoleHelper;
+            transactionProcessor.FileHelperProperty = fakeFileHelper;
+            var merchantProcessor = new MerchantsProcessor();
+            merchantProcessor.ConsoleHelperProperty = new FakeConsoleHelper();
+            merchantProcessor.FileHelperProperty = new FakeFileMerchantWithIncorrectDataHelper();
+            var merchants = merchantProcessor.ReadMerchants("someFile");
+
+            // Act
+            transactionProcessor.ReadTransactions("someFile", merchants);
+
+            // Assert
+            var output = consoleHelper.ConsoleOutput.ToString();
+            Assert.Equal("Error while processing merchant data\nError while processing tramsaction data\n", output);
+        }
+
         // Here more unit tests! covering other scenarios ...
     }
 }
