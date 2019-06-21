@@ -16,9 +16,16 @@ namespace Danskebank.MerchantFeeCalculation.Engine.FileReader
 
             if ((line = stream.ReadLine()) != null)
             {
-                var transaction = transactionParser.ParseTransactionEntry(line);
-                transaction.Owner = merchants[transaction.Owner.Name];
-                return transaction;
+                if (!string.IsNullOrEmpty(line))
+                {
+                    var transaction = transactionParser.ParseTransactionEntry(line);
+                    transaction.Owner = merchants[transaction.Owner.Name];
+                    return transaction;
+                }
+                else
+                {
+                    return new Transaction() { Owner = null };
+                }
             }
             else
             {

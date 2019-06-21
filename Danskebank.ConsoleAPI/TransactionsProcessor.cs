@@ -55,17 +55,21 @@ namespace Danskebank.MerchantFeeCalculation.ConsoleAPI
 
                         while ((transaction = transactionReader.ReadSingleEntry(file, merchants, transactionParser)) != null)
                         {
-                            var processedTransaction = calculator.CalculateFee(transaction);
-
-                            if (monthNumber != 0 && monthNumber != processedTransaction.RelatedTransaction.DoneOn.Month)
+                            if (transaction.Owner != null)
                             {
-                                ConsoleHelperProperty.WriteLine("\n");
-                            }
+                                var processedTransaction = calculator.CalculateFee(transaction);
 
-                            var stringifiedTransaction =
-                                processedTransactionWriter.ConvertTransactionToTextEntry(processedTransaction);
-                            ConsoleHelperProperty.WriteLine(stringifiedTransaction);
-                            monthNumber = processedTransaction.RelatedTransaction.DoneOn.Month;
+                                if (monthNumber != 0
+                                    && monthNumber != processedTransaction.RelatedTransaction.DoneOn.Month)
+                                {
+                                    ConsoleHelperProperty.WriteLine("\n");
+                                }
+
+                                var stringifiedTransaction =
+                                    processedTransactionWriter.ConvertTransactionToTextEntry(processedTransaction);
+                                ConsoleHelperProperty.WriteLine(stringifiedTransaction);
+                                monthNumber = processedTransaction.RelatedTransaction.DoneOn.Month;
+                            }
                         }
                         FileHelperProperty.CloseFile(file);
                     }

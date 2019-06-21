@@ -29,6 +29,41 @@ namespace Danskebank.MerchantFeeCalculation.ConsoleAPITestProject
         }
 
         [Fact]
+        public void APIProcessing_ShouldProduceTaskOutput_WhenTaskDataProvided()
+        {
+            // Arrange
+            var transactionProcessor = new TransactionsProcessor();
+            var fakeFileHelper = new FakeBigFileTransactionHelper();
+            var consoleHelper = new FakeConsoleHelper();
+            transactionProcessor.ConsoleHelperProperty = consoleHelper;
+            transactionProcessor.FileHelperProperty = fakeFileHelper;
+            var merchantProcessor = new MerchantsProcessor();
+            merchantProcessor.ConsoleHelperProperty = new FakeConsoleHelper();
+            merchantProcessor.FileHelperProperty = new FakeFileMerchantHelper();
+            var merchants = merchantProcessor.ReadMerchants("someFile");
+
+            // Act
+            transactionProcessor.ReadTransactions("someFile", merchants);
+
+            // Assert
+            var output = consoleHelper.ConsoleOutput.ToString();
+            var expectedOitput = @"2018-09-01 7-ELEVEN 30.00
+2018-09-04 CIRCLE_K 29.80
+2018-09-07 TELIA    29.90
+2018-09-09 NETTO    30.00
+2018-09-13 CIRCLE_K 0.80
+2018-09-16 TELIA    0.90
+2018-09-19 7-ELEVEN 1.00
+2018-09-22 CIRCLE_K 0.80
+2018-09-25 TELIA    0.90
+2018-09-28 7-ELEVEN 1.00
+2018-09-30 CIRCLE_K 0.80
+";
+
+            Assert.Equal(expectedOitput, output);
+        }
+
+        [Fact]
         public void APIProcessing_ShouldProduceErrorMessage_WhenNoTransactionFileProvided()
         {
             // Arrange

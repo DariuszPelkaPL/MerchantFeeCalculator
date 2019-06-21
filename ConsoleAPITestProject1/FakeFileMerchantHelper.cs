@@ -18,7 +18,9 @@ namespace Danskebank.MerchantFeeCalculation.ConsoleAPITestProject
         public StreamReader OpenFile(string filePath)
         {
             var text = @"7-ELEVEN 1 0 
-CIRCLE_K 1 20"; 
+CIRCLE_K 1 20
+TELIA    1 10
+NETTO    1 0 "; 
             var memoryStream = GenerateStreamFromString(text);
             StreamReader reader = new StreamReader(memoryStream);
             return reader;
